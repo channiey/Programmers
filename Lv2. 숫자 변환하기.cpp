@@ -5,7 +5,7 @@
 #include <queue>
 #include <set>
 
-using namespace std;
+using namespace std; 
 
 int solution(int x, int y, int n) {
 
