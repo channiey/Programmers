@@ -1,0 +1,46 @@
+#include <vector>
+using namespace std;
+
+int solution(vector<int> players, int m, int k)
+{
+    int answer{};
+
+    // 현재 운영중인 서버
+    vector<int> curServers;
+
+    for (const int& n : players)
+    {
+        // 현재 서버 운영시간 갱신
+        for (auto iter = curServers.begin(); iter != curServers.end();)
+        {
+            --(*iter);
+            if (0 >= *iter) // 서버 운영 시간 만료
+            {
+                iter = curServers.erase(iter);
+            }
+            else
+            {
+                ++iter;
+            }
+        }
+
+        // 현재 시간대 사용자들에게 필요한 서버 수 확인
+        const int requiredServers{ n / m };
+
+        // 새로 필요한 서버 수
+        const int expandServers{ requiredServers - (int)curServers.size() };
+
+        // 현재 운영중인 서버를 통해, 증설 여부 결정        
+        if (0 < expandServers)
+        {
+            answer += expandServers;
+
+            for (int i = 0; i < expandServers; ++i)
+            {
+                curServers.push_back(k);
+            }
+        }
+    }
+
+    return answer;
+}
